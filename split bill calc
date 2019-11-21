@@ -1,14 +1,13 @@
 package ClassLabGUI;
-import java.lang.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class ClassLabGUI extends Application {
 @Override
@@ -51,9 +50,11 @@ public void start(Stage primaryStage){
                 
                 //create text box for output
               
-                
-          
+//            TextField myOutput = new TextField();   
+  JPanel mainPanel = new JPanel();
+              JTextArea myOutput = new JTextArea(0,8);
     
+               mainPanel.add(myOutput);
                 //calculate button
        Button calculate = new Button();
 
@@ -61,16 +62,18 @@ public void start(Stage primaryStage){
     HBox buttonBox = new HBox(15);
 
 		buttonBox.getChildren().add(calculate);
-    buttonBox.setAlignment(Pos.BOTTOM_LEFT);
+                
+    buttonBox.setAlignment(Pos.BOTTOM_RIGHT);
 
 		grid.add(buttonBox, 0, 12, 2, 1);
     calculate.setOnAction(eventonclick -> {
         double b = Double.valueOf(bill.getText());
-        double st = (Double.valueOf(salesTax.getText())/100);
+        int s = Integer.valueOf(split.getText());
+        double st = ((Double.valueOf(salesTax.getText())/100)+1);
+        double calc = ((b*st)/s);
+        myOutput.setText("The amount split between " + s + " people is " + calc);
     });  
     
-
-
 
     
     //clear button
@@ -79,17 +82,11 @@ public void start(Stage primaryStage){
     clear.setText("Clear");
 
     clear.setOnAction(event -> {
-        bill.clear();
-        salesTax.clear();
-        split.clear();
+        bill.setText("");
+        salesTax.setText("");
+        split.setText("");
 });
-    HBox buttonBox2 = new HBox(15);
-    buttonBox2.getChildren().add(clear);
-
-    buttonBox2.setAlignment(Pos.BOTTOM_CENTER);
-
-		grid.add(buttonBox2, 0, 12, 2, 1);
-    
+    buttonBox.getChildren().add(clear);
     
     //exit button
        Button exit = new Button();
@@ -99,13 +96,9 @@ public void start(Stage primaryStage){
     exit.setOnAction(event -> {
         System.exit(1);
     });
-    HBox buttonBox3 = new HBox(15);
-                buttonBox3.getChildren().add(exit);
+                buttonBox.getChildren().add(exit);
 
-    buttonBox3.setAlignment(Pos.BOTTOM_RIGHT);
 
-		grid.add(buttonBox3, 0, 12, 2, 1);
-                
                 //final
                  primaryStage.setScene(scene);
 
@@ -115,5 +108,4 @@ public void start(Stage primaryStage){
 	public static void main(String[] args){
 		launch(args);
 	}
-        
 }
